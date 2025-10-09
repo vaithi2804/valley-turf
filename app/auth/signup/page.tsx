@@ -39,7 +39,8 @@ export default function SignUpPage() {
     setLoading(true)
 
     try {
-      await signUp(name, email, phone, password)
+      const formattedPhone = phone.replace(/\s/g, "")
+      await signUp(name, email, formattedPhone, password)
       sessionStorage.setItem("verificationEmail", email)
       toast({
         title: "Success",
