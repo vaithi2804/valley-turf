@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAuth } from "@/components/auth-provider"
 import { useToast } from "@/hooks/use-toast"
 import { Header } from "@/components/header"
@@ -17,10 +16,9 @@ import { Header } from "@/components/header"
 export default function SignUpPage() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
+  const [phone, setPhone] = useState("+91 ")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [role, setRole] = useState("user")
   const [loading, setLoading] = useState(false)
   const { signUp } = useAuth()
   const router = useRouter()
@@ -41,7 +39,7 @@ export default function SignUpPage() {
     setLoading(true)
 
     try {
-      await signUp(name, email, phone, password, role)
+      await signUp(name, email, phone, password)
       sessionStorage.setItem("verificationEmail", email)
       toast({
         title: "Success",
@@ -99,21 +97,21 @@ export default function SignUpPage() {
                   type="tel"
                   placeholder="+91 9876543210"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value
+                    if (value.startsWith("+91")) {
+                      setPhone(value)
+                    } else {
+                      setPhone("+91 " + value.replace(/^\+91\s*/, ""))
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Backspace" || e.key === "Delete") && (e.currentTarget.selectionStart ?? 0) <= 4) {
+                      e.preventDefault()
+                    }
+                  }}
                   required
                 />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="role">Account Type</Label>
-                <Select value={role} onValueChange={setRole}>
-                  <SelectTrigger id="role">
-                    <SelectValue placeholder="Select account type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="user">User (Book Slots)</SelectItem>
-                    <SelectItem value="owner">Owner (Manage Arena)</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>

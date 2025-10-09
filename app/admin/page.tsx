@@ -24,6 +24,8 @@ import {
 import { cn } from "@/lib/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { signOut } from "next-auth/react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const timeSlots = [
   "00:00",
@@ -114,6 +116,8 @@ export default function AdminPage() {
   const [visibleDatesCount, setVisibleDatesCount] = useState<number>(3)
   const [startTime, setStartTime] = useState<string>("")
   const [duration, setDuration] = useState<number>(1)
+  const [customizeAmount, setCustomizeAmount] = useState<boolean>(false)
+  const [customAmount, setCustomAmount] = useState<string>("")
   const [bookedSlots, setBookedSlots] = useState<string[]>([])
   const [nextDayBookedSlots, setNextDayBookedSlots] = useState<string[]>([])
   const [maxAvailableDuration, setMaxAvailableDuration] = useState<number>(0)
@@ -355,6 +359,15 @@ export default function AdminPage() {
       return
     }
 
+    if (customizeAmount && (!customAmount || Number(customAmount) <= 0)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid custom amount",
+        variant: "destructive",
+      })
+      return
+    }
+
     try {
       const idToken = localStorage.getItem("cognitoIdToken")
       const response = await fetch("https://sx8fggh726.execute-api.ap-south-1.amazonaws.com/prod/admin-block-slots", {
@@ -368,6 +381,7 @@ export default function AdminPage() {
           startTime: bookingDetails.startTime,
           endTime: bookingDetails.endTime,
           action: "block", // Required by admin-block-slot Lambda
+          customAmount: customizeAmount ? Number(customAmount) : undefined,
         }),
       })
 
@@ -380,6 +394,8 @@ export default function AdminPage() {
 
       setStartTime("")
       setDuration(1)
+      setCustomizeAmount(false)
+      setCustomAmount("")
       fetchTodayBookings()
       fetchAnalytics() // Refresh analytics after booking
     } catch (error) {
@@ -579,6 +595,8 @@ export default function AdminPage() {
                             setSelectedDate(date)
                             setStartTime("")
                             setDuration(1)
+                            setCustomizeAmount(false)
+                            setCustomAmount("")
                           }}
                           className={cn(
                             "flex flex-col items-center justify-center p-2.5 rounded-lg border-2 transition-all cursor-pointer",
@@ -674,28 +692,61 @@ export default function AdminPage() {
               )}
 
               {bookingDetails && (
-                <Card className="bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20 p-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-muted-foreground">Time Range:</span>
-                      <span className="font-bold text-lg">
-                        {bookingDetails.startTime} - {bookingDetails.endTime}
-                      </span>
+                <>
+                  <Card className="bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20 p-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-muted-foreground">Time Range:</span>
+                        <span className="font-bold text-lg">
+                          {bookingDetails.startTime} - {bookingDetails.endTime}
+                        </span>
+                      </div>
+                      {bookingDetails.isOvernight && (
+                        <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
+                          <AlertCircle className="h-4 w-4" />
+                          <span>This booking crosses midnight</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between items-center">
+                        <span className="text-muted-foreground">Duration:</span>
+                        <span className="font-medium">{bookingDetails.duration} hours</span>
+                      </div>
                     </div>
-                    {bookingDetails.isOvernight && (
-                      <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
-                        <AlertCircle className="h-4 w-4" />
-                        <span>This booking crosses midnight</span>
+                  </Card>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="customizeAmount"
+                        checked={customizeAmount}
+                        onChange={(e) => setCustomizeAmount(e.target.checked)}
+                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
+                      />
+                      <Label htmlFor="customizeAmount" className="cursor-pointer">
+                        Customize Amount
+                      </Label>
+                    </div>
+
+                    {customizeAmount && (
+                      <div className="space-y-2">
+                        <Label htmlFor="customAmount">Custom Amount (₹)</Label>
+                        <Input
+                          id="customAmount"
+                          type="text" // use text for smooth typing
+                          inputMode="numeric" // still brings up numeric keyboard on mobile
+                          placeholder="Enter custom amount"
+                          value={customAmount}
+                          onChange={(e) => setCustomAmount(e.target.value.replace(/[^0-9]/g, ""))} // allow only digits
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Enter the custom amount for this booking. This will be added to the revenue.
+                        </p>
                       </div>
                     )}
-                    <div className="flex justify-between items-center">
-                      <span className="text-muted-foreground">Duration:</span>
-                      <span className="font-medium">{bookingDetails.duration} hours</span>
-                    </div>
                   </div>
-                </Card>
+                </>
               )}
-
               <Button
                 onClick={handleAdminBooking}
                 disabled={!startTime || duration === 0}

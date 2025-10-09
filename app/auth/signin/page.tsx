@@ -29,7 +29,6 @@ export default function SignInPage() {
       const result = await signIn(email, password)
 
       if (result.requiresPasswordChange && result.session) {
-        // Redirect to reset password page with session
         sessionStorage.setItem("passwordChangeSession", result.session)
         sessionStorage.setItem("passwordChangeEmail", email)
         router.push("/auth/reset-password?forced=true")
@@ -41,10 +40,11 @@ export default function SignInPage() {
         description: "Signed in successfully!",
       })
 
-      const accessToken = localStorage.getItem("cognitoAccessToken")
-      if (accessToken) {
-        const payload = JSON.parse(atob(accessToken.split(".")[1]))
+      const idToken = localStorage.getItem("cognitoIdToken")
+      if (idToken) {
+        const payload = JSON.parse(atob(idToken.split(".")[1]))
         const userRole = payload["custom:role"]
+        console.log("User Role:", userRole)
 
         if (userRole === "admin") {
           router.push("/admin")
