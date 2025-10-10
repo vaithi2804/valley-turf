@@ -10,9 +10,9 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Valley Sports Arena - Mannargudi's Most Famous & Best Turf | Premier Sports Ground",
   description:
-    "Valley Sports Arena is Mannargudi's most famous turf and the best turf in Mannargudi. FIFA-certified cricket and football ground with 50mm eco-friendly grass. The premier and grandest sports destination in Mannargudi for cricket, football, volleyball, and private events. Open 24/7 at Mela Mottai Road, Mannargudi. Experience the best turf facilities in Mannargudi!",
+    "Valley Sports Arena is Mannargudi's most famous turf and the best turf in Mannargudi. FIFA-certified cricket and football ground with 50mm eco-friendly grass. The premier and grandest sports destination in Mannargudi for cricket, football, volleyball, and private events. Open 24/7 at Mela Mottai Road, Mannargudi. Experience the best turf facilities in Mannargudi! Book your slot at Mannargudi's famous turf today.",
   keywords:
-    "mannargudi famous turf, mannargudi best turf, best turf in mannargudi, famous turf mannargudi, mannargudi turf, turf in mannargudi, mannargudi grandest turf, valley sports arena, mannargudi cricket ground, mannargudi football ground, premier turf mannargudi, sports arena mannargudi, mannargudi sports, turf booking mannargudi, fifa certified turf mannargudi",
+    "mannargudi famous turf, mannargudi best turf, best turf in mannargudi, famous turf mannargudi, mannargudi turf, turf in mannargudi, mannargudi grandest turf, valley sports arena, mannargudi cricket ground, mannargudi football ground, premier turf mannargudi, sports arena mannargudi, mannargudi sports, turf booking mannargudi, fifa certified turf mannargudi, top turf mannargudi, mannargudi sports ground, famous sports turf mannargudi",
 }
 
 export default function Home() {
@@ -30,11 +30,13 @@ export default function Home() {
               "Mannargudi Best Turf",
               "Best Turf in Mannargudi",
               "Mannargudi's Grandest Turf",
+              "Famous Turf Mannargudi",
+              "Top Turf Mannargudi",
             ],
             description:
               "Mannargudi's most famous and best turf - FIFA-certified cricket and football ground with 50mm eco-friendly grass. The premier sports destination in Mannargudi.",
-            image: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
-            logo: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
+            image: "https://valleyturf.in/logo.png",
+            logo: "https://valleyturf.in/logo.png",
             url: "https://valleyturf.in",
             telephone: "+917904831017",
             address: {
@@ -68,6 +70,8 @@ export default function Home() {
               reviewCount: "50",
               bestRating: "5",
             },
+            keywords:
+              "mannargudi famous turf, mannargudi best turf, best turf in mannargudi, famous turf mannargudi, top turf mannargudi",
           }),
         }}
       />

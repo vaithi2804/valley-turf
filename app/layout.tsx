@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   keywords:
     "mannargudi famous turf, mannargudi best turf, best turf in mannargudi, famous turf mannargudi, mannargudi turf, turf in mannargudi, valley sports arena, mannargudi cricket ground, mannargudi football ground, sports arena mannargudi, mannargudi sports, turf booking mannargudi, mannargudi grandest turf, premier turf mannargudi",
   icons: {
-    icon: "/images/design-mode/IMG_0027.PNG.png",
-    shortcut: "/images/design-mode/IMG_0027.PNG.png",
-    apple: "/images/design-mode/IMG_0027.PNG.png",
+    icon: "https://valleyturf.in/logo.png",
+    shortcut: "https://valleyturf.in/logo.png",
+    apple: "https://valleyturf.in/logo.png",
   },
   openGraph: {
     title: "Valley Sports Arena - Mannargudi's Most Famous & Best Turf",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Valley Sports Arena - Mannargudi's Most Famous Turf",
     images: [
       {
-        url: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
+        url: "https://valleyturf.in/logo.png",
         width: 1200,
         height: 630,
         alt: "Valley Sports Arena Logo - Mannargudi's Most Famous and Best Turf",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "Valley Sports Arena - Mannargudi's Most Famous & Best Turf",
     description:
       "Mannargudi's most famous and best turf - FIFA-certified cricket and football ground. Book slots 24/7 for cricket, football, volleyball & private events.",
-    images: ["https://valleyturf.in/images/design-mode/IMG_0027.PNG.png"],
+    images: ["https://valleyturf.in/logo.png"],
     creator: "@vall.eyturf",
   },
   robots: {
@@ -91,8 +91,8 @@ export default function RootLayout({
               alternateName: ["Mannargudi Famous Turf", "Mannargudi Best Turf", "Best Turf in Mannargudi"],
               description: "Mannargudi's most famous and best turf - FIFA-certified cricket and football ground",
               url: "https://valleyturf.in",
-              logo: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
-              image: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
+              logo: "https://valleyturf.in/logo.png",
+              image: "https://valleyturf.in/logo.png",
               telephone: "+917904831017",
               address: {
                 "@type": "PostalAddress",

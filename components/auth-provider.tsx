@@ -26,6 +26,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkAuth()
   }, [])
 
+  useEffect(() => {
+    const handleUnauthorized = (event: CustomEvent) => {
+      console.log("[v0] 401 Unauthorized detected, logging out")
+      signOut()
+      window.location.href = "/auth/signin"
+    }
+
+    window.addEventListener("unauthorized" as any, handleUnauthorized)
+    return () => window.removeEventListener("unauthorized" as any, handleUnauthorized)
+  }, [])
+
   const checkAuth = async () => {
     try {
       const accessToken = localStorage.getItem("cognitoAccessToken")
@@ -34,13 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const userData = await cognitoAuth.getUserFromToken(accessToken)
           setUser(userData)
         } catch (tokenError: any) {
-          // Token is invalid or expired
           console.log("[v0] Token validation failed, clearing tokens")
-          // Clear invalid tokens but don't set user to null (prevents logout on refresh)
           localStorage.removeItem("cognitoAccessToken")
           localStorage.removeItem("cognitoIdToken")
           localStorage.removeItem("cognitoRefreshToken")
-          // Don't throw error - just silently clear tokens
         }
       }
     } catch (error) {

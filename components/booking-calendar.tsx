@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/components/auth-provider"
+import { useRouter } from "next/navigation"
 import { ChevronLeft, ChevronRight, Gift, Plus, Minus, AlertCircle, Info, CheckCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -66,6 +67,22 @@ const isTimeSlotPast = (slot: string, selectedDate: Date): boolean => {
   return selectedDate < new Date(now.getFullYear(), now.getMonth(), now.getDate())
 }
 
+const isWeekendTime = (date: Date, startTime: string): boolean => {
+  const dayOfWeek = date.getDay()
+  const [hours] = startTime.split(":").map(Number)
+
+  // Friday after 6 PM (18:00)
+  if (dayOfWeek === 5 && hours >= 18) return true
+
+  // All day Saturday and Sunday
+  if (dayOfWeek === 6 || dayOfWeek === 0) return true
+
+  // Monday before 6 AM (06:00)
+  if (dayOfWeek === 1 && hours < 6) return true
+
+  return false
+}
+
 export function BookingCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date>(() => {
     const openingDate = new Date("2025-10-09")
@@ -85,6 +102,7 @@ export function BookingCalendar() {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const { toast } = useToast()
   const { user } = useAuth()
+  const router = useRouter()
 
   useEffect(() => {
     const calculateVisibleDates = () => {
@@ -179,6 +197,9 @@ export function BookingCalendar() {
         setNextDayBookedSlots(nextDayBooked)
       }
     } catch (error) {
+      if (error instanceof Error && error.message.includes("401")) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+      }
       console.error("Fetch booked slots error:", error)
     }
   }
@@ -226,16 +247,27 @@ export function BookingCalendar() {
     if (!startTime || duration === 0) return null
 
     const endTime = calculateEndTime(startTime, duration)
-    const isWeekend = selectedDate.getDay() === 0 || selectedDate.getDay() === 6
+    const isWeekend = isWeekendTime(selectedDate, startTime)
     const hourlyRate = isWeekend ? 899 : 799
 
-    let totalCost = duration * hourlyRate
+    let chargeableHours = duration
     let offerApplied = false
 
-    if (isOfferActive && duration === 3) {
-      totalCost = 2 * hourlyRate
+    if (duration === 3) {
+      chargeableHours = 2
+      offerApplied = true
+    } else if (duration === 4) {
+      chargeableHours = 3
+      offerApplied = true
+    } else if (duration === 5) {
+      chargeableHours = 4
+      offerApplied = true
+    } else if (duration === 6) {
+      chargeableHours = 4
       offerApplied = true
     }
+
+    const totalCost = chargeableHours * hourlyRate
 
     const isOvernight = timeSlots.indexOf(endTime) <= timeSlots.indexOf(startTime) && endTime !== startTime
 
@@ -243,6 +275,7 @@ export function BookingCalendar() {
       startTime,
       endTime,
       duration,
+      chargeableHours,
       totalCost,
       offerApplied,
       isOvernight,
@@ -352,6 +385,10 @@ export function BookingCalendar() {
       setDuration(1)
       fetchBookedSlots()
     } catch (error) {
+      if (error instanceof Error && error.message.includes("401")) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
       console.error("Booking error:", error)
       toast({
         title: "Booking Failed",
@@ -361,6 +398,11 @@ export function BookingCalendar() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleModalClose = () => {
+    setShowSuccessModal(false)
+    router.push("/")
   }
 
   return (
@@ -578,7 +620,7 @@ export function BookingCalendar() {
         {loading ? "Booking..." : "Confirm Booking"}
       </Button>
 
-      <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+      <Dialog open={showSuccessModal} onOpenChange={handleModalClose}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <div className="flex items-center justify-center mb-4">
@@ -591,7 +633,7 @@ export function BookingCalendar() {
               Make sure to be on time. Enjoy your game!
             </DialogDescription>
           </DialogHeader>
-          <Button onClick={() => setShowSuccessModal(false)} className="w-full cursor-pointer">
+          <Button onClick={handleModalClose} className="w-full cursor-pointer">
             Got it!
           </Button>
         </DialogContent>

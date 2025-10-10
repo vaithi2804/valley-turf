@@ -221,12 +221,19 @@ export default function AdminPage() {
           },
         },
       )
+      if (response.status === 401) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
 
       if (response.ok) {
         const data = await response.json()
         setAnalytics(data.analytics)
       }
     } catch (error) {
+      if (error instanceof Error && error.message.includes("401")) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+      }
       console.error("Analytics fetch error:", error)
     } finally {
       setLoadingAnalytics(false)
@@ -246,11 +253,18 @@ export default function AdminPage() {
         },
       )
 
+      if (response.status === 401) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
       if (response.ok) {
         const data = await response.json()
         setTodayBookings(data.bookings || [])
       }
     } catch (error) {
+      if (error instanceof Error && error.message.includes("401")) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+      }
       console.error("Bookings fetch error:", error)
     }
   }
@@ -269,11 +283,7 @@ export default function AdminPage() {
       )
 
       if (response.status === 401) {
-        localStorage.removeItem("cognitoAccessToken")
-        localStorage.removeItem("cognitoIdToken")
-        localStorage.removeItem("cognitoRefreshToken")
-        await signOut()
-        router.push("/auth/signin")
+        window.dispatchEvent(new CustomEvent("unauthorized"))
         return
       }
 
@@ -297,7 +307,10 @@ export default function AdminPage() {
           },
         },
       )
-
+      if (nextDayResponse.status === 401) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
       if (nextDayResponse.ok) {
         const nextDayData = await nextDayResponse.json()
         const nextDayBooked: string[] = []
@@ -308,6 +321,9 @@ export default function AdminPage() {
         setNextDayBookedSlots(nextDayBooked)
       }
     } catch (error) {
+      if (error instanceof Error && error.message.includes("401")) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+      }
       console.error("Fetch booked slots error:", error)
     }
   }
@@ -397,7 +413,10 @@ export default function AdminPage() {
           customAmount: customizeAmount ? Number(customAmount) : undefined,
         }),
       })
-
+      if (response.status === 401) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
       if (!response.ok) throw new Error("Booking failed")
 
       toast({
@@ -412,6 +431,10 @@ export default function AdminPage() {
       fetchTodayBookings()
       fetchAnalytics() // Refresh analytics after booking
     } catch (error) {
+      if (error instanceof Error && error.message.includes("401")) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
       console.error("Admin booking error:", error)
       toast({
         title: "Booking Failed",
@@ -434,7 +457,10 @@ export default function AdminPage() {
           bookingId,
         }),
       })
-
+      if (response.status === 401) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
       if (!response.ok) throw new Error("Cancel failed")
 
       toast({
@@ -447,6 +473,10 @@ export default function AdminPage() {
       setCancelDialogOpen(false)
       setBookingToCancel(null)
     } catch (error) {
+      if (error instanceof Error && error.message.includes("401")) {
+        window.dispatchEvent(new CustomEvent("unauthorized"))
+        return
+      }
       console.error("Cancel booking error:", error)
       toast({
         title: "Error",

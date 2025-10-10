@@ -3,13 +3,14 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
-import { Phone, MapPin, Clock } from "lucide-react"
+import { Phone, MapPin, Clock, Instagram } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function ContactPage() {
   const address = "Valley Sports Arena (TURF), Mela mottai road, Mannargudi, Tamil Nadu 614001"
   const phoneNumber = "+91 7904831017"
   const mapUrl = "https://maps.app.goo.gl/h1TPzCXGRfst523N9"
+  const instagramUrl = "https://www.instagram.com/vall.eyturf/"
 
   return (
     <main className="min-h-screen">
@@ -26,7 +27,7 @@ export default function ContactPage() {
 
           <div className="max-w-4xl mx-auto space-y-6">
             {/* Contact Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card>
                 <CardContent className="pt-6">
                   <div className="flex flex-col items-center text-center gap-3">
@@ -79,6 +80,29 @@ export default function ContactPage() {
                       <h3 className="font-semibold mb-2">Hours</h3>
                       <p className="text-muted-foreground text-sm">Open 24/7</p>
                       <p className="text-xs text-muted-foreground mt-2">Book anytime</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Instagram card */}
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex flex-col items-center text-center gap-3">
+                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Instagram className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">Follow Us</h3>
+                      <p className="text-muted-foreground text-sm mb-3">@vall.eyturf</p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open(instagramUrl, "_blank")}
+                        className="cursor-pointer"
+                      >
+                        View Profile
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
