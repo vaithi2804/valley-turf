@@ -23,40 +23,52 @@ export default function Home() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "SportsActivityLocation",
-            name: "Valley Sports Arena",
-            alternateName: "Mannargudi Famous Turf",
-            description:
+            "@type": ["SportsActivityLocation", "LocalBusiness", "Organization"],
+            "name": "Valley Sports Arena",
+            "alternateName": "Mannargudi Famous Turf",
+            "description":
               "Mannargudi's most famous turf - FIFA-certified cricket and football ground with 50mm eco-friendly grass. Best turf in Mannargudi for sports.",
-            image:
-              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0027.PNG-VtZRukuO9aKQpQY9F6Fbf7XCcLFwNr.png",
-            logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0027.PNG-VtZRukuO9aKQpQY9F6Fbf7XCcLFwNr.png",
-            url: "https://valleysportsarena.com",
-            telephone: "+917904831017",
-            address: {
+            "image": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0027.PNG-VtZRukuO9aKQpQY9F6Fbf7XCcLFwNr.png",
+            "logo": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0027.PNG-VtZRukuO9aKQpQY9F6Fbf7XCcLFwNr.png",
+            "url": "https://valleyturf.in",
+            "telephone": "+917904831017",
+            "address": {
               "@type": "PostalAddress",
-              streetAddress: "Mela Mottai Road",
-              addressLocality: "Mannargudi",
-              addressRegion: "Tamil Nadu",
-              postalCode: "614001",
-              addressCountry: "IN",
+              "streetAddress": "Mela Mottai Road",
+              "addressLocality": "Mannargudi",
+              "addressRegion": "Tamil Nadu",
+              "postalCode": "614001",
+              "addressCountry": "IN"
             },
-            geo: {
+            "geo": {
               "@type": "GeoCoordinates",
-              latitude: 10.6667,
-              longitude: 79.45,
+              "latitude": 10.6667,
+              "longitude": 79.45
             },
-            openingHoursSpecification: {
+            "openingHoursSpecification": {
               "@type": "OpeningHoursSpecification",
-              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              opens: "00:00",
-              closes: "23:59",
+              "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ],
+              "opens": "00:00",
+              "closes": "23:59"
             },
-            priceRange: "₹799-₹899",
-            sameAs: ["https://valleysportsarena.com"],
+            "priceRange": "₹799-₹899",
+            "sameAs": [
+              "https://valleyturf.in",
+              "https://www.google.com/maps/place/Valley+Sports+Arena+(TURF)/@10.6486568,79.4508205,17z/data=!3m1!4b1!4m6!3m5!1s0x3a554d3258815953:0x18743575cf932773!8m2!3d10.6486568!4d79.4508205!16s%2Fg%2F11y096yvkr",
+              "https://www.instagram.com/vall.eyturf/"
+            ]
           }),
         }}
       />
+
       <main className="min-h-screen">
         <Header />
         <PromoBanner />
