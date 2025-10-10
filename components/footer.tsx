@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Instagram } from "lucide-react"
 
 export function Footer() {
   return (
@@ -22,6 +23,18 @@ export function Footer() {
               football with 50mm eco-friendly grass.
             </p>
             <p className="text-sm text-muted-foreground">Open 24/7 for your convenience</p>
+
+            <div className="mt-4">
+              <a
+                href="https://www.instagram.com/vall.eyturf/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Instagram className="h-5 w-5" />
+                <span>@vall.eyturf</span>
+              </a>
+            </div>
           </div>
 
           <div>
@@ -57,8 +70,8 @@ export function Footer() {
               <li>Mannargudi, Tamil Nadu</li>
               <li>614001</li>
               <li className="pt-2">
-                <a href="tel:+919790028312" className="hover:text-primary transition-colors">
-                  +91 9790028312
+                <a href="tel:+917904831017" className="hover:text-primary transition-colors">
+                  +91 7904831017
                 </a>
               </li>
             </ul>

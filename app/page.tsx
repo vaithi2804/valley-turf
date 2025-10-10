@@ -8,11 +8,11 @@ import { PromoBanner } from "@/components/promo-banner"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Valley Sports Arena - Mannargudi Famous Turf | Best Turf in Mannargudi",
+  title: "Valley Sports Arena - Mannargudi's Most Famous & Best Turf | Premier Sports Ground",
   description:
-    "Valley Sports Arena is Mannargudi's most famous turf and premier sports destination. FIFA-certified cricket and football ground with 50mm eco-friendly grass. The best turf in Mannargudi for cricket, football, volleyball, and private events. Open 24/7 at Mela Mottai Road, Mannargudi. Mannargudi famous turf for sports enthusiasts.",
+    "Valley Sports Arena is Mannargudi's most famous turf and the best turf in Mannargudi. FIFA-certified cricket and football ground with 50mm eco-friendly grass. The premier and grandest sports destination in Mannargudi for cricket, football, volleyball, and private events. Open 24/7 at Mela Mottai Road, Mannargudi. Experience the best turf facilities in Mannargudi!",
   keywords:
-    "mannargudi famous turf, famous turf mannargudi, mannargudi turf, turf in mannargudi, mannargudi best turf, best turf in mannargudi, valley sports arena, mannargudi cricket ground, mannargudi football ground, sports arena mannargudi, mannargudi sports, turf booking mannargudi",
+    "mannargudi famous turf, mannargudi best turf, best turf in mannargudi, famous turf mannargudi, mannargudi turf, turf in mannargudi, mannargudi grandest turf, valley sports arena, mannargudi cricket ground, mannargudi football ground, premier turf mannargudi, sports arena mannargudi, mannargudi sports, turf booking mannargudi, fifa certified turf mannargudi",
 }
 
 export default function Home() {
@@ -24,47 +24,50 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": ["SportsActivityLocation", "LocalBusiness", "Organization"],
-            "name": "Valley Sports Arena",
-            "alternateName": "Mannargudi Famous Turf",
-            "description":
-              "Mannargudi's most famous turf - FIFA-certified cricket and football ground with 50mm eco-friendly grass. Best turf in Mannargudi for sports.",
-            "image": "https://valleyturf.in/logo.png",
-            "logo": "https://valleyturf.in/logo.png",
-            "url": "https://valleyturf.in",
-            "telephone": "+917904831017",
-            "address": {
+            name: "Valley Sports Arena",
+            alternateName: [
+              "Mannargudi Famous Turf",
+              "Mannargudi Best Turf",
+              "Best Turf in Mannargudi",
+              "Mannargudi's Grandest Turf",
+            ],
+            description:
+              "Mannargudi's most famous and best turf - FIFA-certified cricket and football ground with 50mm eco-friendly grass. The premier sports destination in Mannargudi.",
+            image: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
+            logo: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
+            url: "https://valleyturf.in",
+            telephone: "+917904831017",
+            address: {
               "@type": "PostalAddress",
-              "streetAddress": "Mela Mottai Road",
-              "addressLocality": "Mannargudi",
-              "addressRegion": "Tamil Nadu",
-              "postalCode": "614001",
-              "addressCountry": "IN"
+              streetAddress: "Mela Mottai Road",
+              addressLocality: "Mannargudi",
+              addressRegion: "Tamil Nadu",
+              postalCode: "614001",
+              addressCountry: "IN",
             },
-            "geo": {
+            geo: {
               "@type": "GeoCoordinates",
-              "latitude": 10.6667,
-              "longitude": 79.45
+              latitude: 10.6486568,
+              longitude: 79.4508205,
             },
-            "openingHoursSpecification": {
+            openingHoursSpecification: {
               "@type": "OpeningHoursSpecification",
-              "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
-              ],
-              "opens": "00:00",
-              "closes": "23:59"
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              opens: "00:00",
+              closes: "23:59",
             },
-            "priceRange": "₹799-₹899",
-            "sameAs": [
+            priceRange: "₹799-₹899",
+            sameAs: [
+              "https://www.instagram.com/vall.eyturf/",
               "https://valleyturf.in",
               "https://www.google.com/maps/place/Valley+Sports+Arena+(TURF)/@10.6486568,79.4508205,17z/data=!3m1!4b1!4m6!3m5!1s0x3a554d3258815953:0x18743575cf932773!8m2!3d10.6486568!4d79.4508205!16s%2Fg%2F11y096yvkr",
-              "https://www.instagram.com/vall.eyturf/"
-            ]
+            ],
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "50",
+              bestRating: "5",
+            },
           }),
         }}
       />

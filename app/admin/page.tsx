@@ -26,6 +26,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { signOut } from "next-auth/react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+
 
 const timeSlots = [
   "00:00",
@@ -131,6 +142,8 @@ export default function AdminPage() {
   const [loadingAnalytics, setLoadingAnalytics] = useState(true)
   const [selectedMonth, setSelectedMonth] = useState<string>("")
   const { toast } = useToast()
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false)
+  const [bookingToCancel, setBookingToCancel] = useState<string | null>(null)
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -431,6 +444,8 @@ export default function AdminPage() {
 
       fetchTodayBookings()
       fetchAnalytics()
+      setCancelDialogOpen(false)
+      setBookingToCancel(null)
     } catch (error) {
       console.error("Cancel booking error:", error)
       toast({
@@ -439,6 +454,11 @@ export default function AdminPage() {
         variant: "destructive",
       })
     }
+  }
+
+  const openCancelDialog = (bookingId: string) => {
+    setBookingToCancel(bookingId)
+    setCancelDialogOpen(true)
   }
 
   const navigateDates = (direction: "next" | "previous") => {
@@ -826,7 +846,8 @@ export default function AdminPage() {
                               <Button
                                 variant="destructive"
                                 size="sm"
-                                onClick={() => handleCancelBooking(booking.bookingId)}
+                                onClick={() => openCancelDialog(booking.bookingId)}
+                                className="cursor-pointer"
                               >
                                 <Trash2 className="h-4 w-4 mr-2" />
                                 Cancel
@@ -843,6 +864,26 @@ export default function AdminPage() {
           </Card>
         </div>
       </div>
+      <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Cancel Booking</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to cancel this booking? This action cannot be undone and the customer will be
+              notified via email.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setBookingToCancel(null)} className="cursor-pointer">No, Keep Booking</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => bookingToCancel && handleCancelBooking(bookingToCancel)}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer"
+            >
+              Yes, Cancel Booking
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }

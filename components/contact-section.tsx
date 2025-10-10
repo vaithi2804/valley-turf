@@ -1,13 +1,14 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Phone, MapPin, Clock } from "lucide-react"
+import { Phone, MapPin, Clock, Instagram } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function ContactSection() {
   const address = "Valley Sports Arena (TURF), Mela mottai road, Mannargudi, Tamil Nadu 614001"
   const phone = "+91 7904831017"
   const mapUrl = "https://maps.app.goo.gl/h1TPzCXGRfst523N9"
+  const instagramUrl = "https://www.instagram.com/vall.eyturf/"
 
   return (
     <section id="contact" className="py-20">
@@ -70,6 +71,28 @@ export function ContactSection() {
                     <h3 className="font-semibold mb-1">Hours</h3>
                     <p className="text-muted-foreground">Open 24/7</p>
                     <p className="text-sm text-muted-foreground mt-2">Book your slot anytime, day or night</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Instagram className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold mb-1">Follow Us</h3>
+                    <p className="text-muted-foreground mb-3">@vall.eyturf</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.open(instagramUrl, "_blank")}
+                      className="cursor-pointer"
+                    >
+                      View on Instagram
+                    </Button>
                   </div>
                 </div>
               </CardContent>
