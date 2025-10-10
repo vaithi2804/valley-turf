@@ -67,20 +67,67 @@ const isTimeSlotPast = (slot: string, selectedDate: Date): boolean => {
   return selectedDate < new Date(now.getFullYear(), now.getMonth(), now.getDate())
 }
 
-const isWeekendTime = (date: Date, startTime: string): boolean => {
+const isHourInWeekend = (date: Date, hour: number): boolean => {
   const dayOfWeek = date.getDay()
-  const [hours] = startTime.split(":").map(Number)
 
-  // Friday after 6 PM (18:00)
-  if (dayOfWeek === 5 && hours >= 18) return true
+  // Friday after 6 PM (18:00) until midnight
+  if (dayOfWeek === 5 && hour >= 18) return true
 
   // All day Saturday and Sunday
   if (dayOfWeek === 6 || dayOfWeek === 0) return true
 
   // Monday before 6 AM (06:00)
-  if (dayOfWeek === 1 && hours < 6) return true
+  if (dayOfWeek === 1 && hour < 6) return true
 
   return false
+}
+
+const calculateWeekdayWeekendHours = (
+  date: Date,
+  startTime: string,
+  endTime: string,
+): { weekdayHours: number; weekendHours: number } => {
+  const [startHour] = startTime.split(":").map(Number)
+  const [endHour] = endTime.split(":").map(Number)
+
+  let weekdayHours = 0
+  let weekendHours = 0
+
+  // Handle overnight bookings
+  const isOvernight = endHour < startHour || (endHour === startHour && endTime !== startTime)
+
+  if (isOvernight) {
+    // From start time to midnight
+    for (let hour = startHour; hour < 24; hour++) {
+      if (isHourInWeekend(date, hour)) {
+        weekendHours++
+      } else {
+        weekdayHours++
+      }
+    }
+
+    // From midnight to end time (next day)
+    const nextDay = new Date(date)
+    nextDay.setDate(nextDay.getDate() + 1)
+    for (let hour = 0; hour < endHour; hour++) {
+      if (isHourInWeekend(nextDay, hour)) {
+        weekendHours++
+      } else {
+        weekdayHours++
+      }
+    }
+  } else {
+    // Same day booking
+    for (let hour = startHour; hour < endHour; hour++) {
+      if (isHourInWeekend(date, hour)) {
+        weekendHours++
+      } else {
+        weekdayHours++
+      }
+    }
+  }
+
+  return { weekdayHours, weekendHours }
 }
 
 export function BookingCalendar() {
@@ -247,8 +294,7 @@ export function BookingCalendar() {
     if (!startTime || duration === 0) return null
 
     const endTime = calculateEndTime(startTime, duration)
-    const isWeekend = isWeekendTime(selectedDate, startTime)
-    const hourlyRate = isWeekend ? 899 : 799
+    const { weekdayHours, weekendHours } = calculateWeekdayWeekendHours(selectedDate, startTime, endTime)
 
     let chargeableHours = duration
     let offerApplied = false
@@ -267,8 +313,11 @@ export function BookingCalendar() {
       offerApplied = true
     }
 
-    const totalCost = chargeableHours * hourlyRate
+    const ratio = chargeableHours / duration
+    const chargeableWeekdayHours = weekdayHours * ratio
+    const chargeableWeekendHours = weekendHours * ratio
 
+    const totalCost = Math.round(chargeableWeekdayHours * 799 + chargeableWeekendHours * 899)
     const isOvernight = timeSlots.indexOf(endTime) <= timeSlots.indexOf(startTime) && endTime !== startTime
 
     return {

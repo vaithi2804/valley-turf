@@ -388,7 +388,7 @@ export default function AdminPage() {
       return
     }
 
-    if (customizeAmount && (!customAmount || Number(customAmount) <= 0)) {
+    if (customizeAmount && (!customAmount)) {
       toast({
         title: "Error",
         description: "Please enter a valid custom amount",
