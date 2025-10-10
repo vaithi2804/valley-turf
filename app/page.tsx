@@ -28,8 +28,8 @@ export default function Home() {
             "alternateName": "Mannargudi Famous Turf",
             "description":
               "Mannargudi's most famous turf - FIFA-certified cricket and football ground with 50mm eco-friendly grass. Best turf in Mannargudi for sports.",
-            "image": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0027.PNG-VtZRukuO9aKQpQY9F6Fbf7XCcLFwNr.png",
-            "logo": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0027.PNG-VtZRukuO9aKQpQY9F6Fbf7XCcLFwNr.png",
+            "image": "https://valleyturf.in/logo.png",
+            "logo": "https://valleyturf.in/logo.png",
             "url": "https://valleyturf.in",
             "telephone": "+917904831017",
             "address": {
