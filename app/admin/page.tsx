@@ -36,7 +36,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-
+import { getOfferDetails } from "@/lib/offer-config"
 
 const timeSlots = [
   "00:00",
@@ -144,7 +144,8 @@ export default function AdminPage() {
   const { toast } = useToast()
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false)
   const [bookingToCancel, setBookingToCancel] = useState<string | null>(null)
-
+  const { chargeableHours: _chargeableHours, offerApplied: _offerApplied } = getOfferDetails(1)
+  
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
       router.push("/")

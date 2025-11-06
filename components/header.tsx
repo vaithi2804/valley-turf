@@ -28,7 +28,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0027.PNG-VtZRukuO9aKQpQY9F6Fbf7XCcLFwNr.png"
+              src="/images/design-mode/IMG_0027.PNG.png"
               alt="Valley Sports Arena Logo"
               width={50}
               height={50}

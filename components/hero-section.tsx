@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Calendar, Clock, Award, Gift } from "lucide-react"
+import { OFFERS_ENABLED } from "@/lib/offer-config"
 
 export function HeroSection() {
   return (
     <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -15,12 +15,13 @@ export function HeroSection() {
         }}
       />
 
-      {/* Content */}
       <div className="container mx-auto px-4 relative z-10 text-center text-white">
-        <div className="inline-flex items-center gap-2 bg-accent/90 text-white px-4 py-2 rounded-full mb-4 animate-bounce">
-          <Gift className="h-4 w-4" />
-          <span className="text-sm font-semibold">Opening Offer: Pay for 2, Play for 3 Hours!</span>
-        </div>
+        {OFFERS_ENABLED && (
+          <div className="inline-flex items-center gap-2 bg-accent/90 text-white px-4 py-2 rounded-full mb-4 animate-bounce">
+            <Gift className="h-4 w-4" />
+            <span className="text-sm font-semibold">Opening Offer: Pay for 2, Play for 3 Hours!</span>
+          </div>
+        )}
 
         <h1 className="text-4xl md:text-6xl font-bold mb-4 text-balance">Mannargudi's Grandest Turf</h1>
         <p className="text-xl md:text-2xl mb-6 text-balance">Valley Sports Arena</p>

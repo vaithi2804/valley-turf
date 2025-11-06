@@ -162,8 +162,8 @@ export function EventsSection() {
                     7904831017
                   </a>
                   <span className="text-muted-foreground">/</span>
-                  <a href="tel:+919790028312" className="text-primary hover:underline font-medium cursor-pointer">
-                    9790028312
+                  <a href="tel:+917904831017" className="text-primary hover:underline font-medium cursor-pointer">
+                    7904831017
                   </a>
                 </div>
               </div>

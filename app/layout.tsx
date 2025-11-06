@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/components/auth-provider"
 import { Toaster } from "@/components/ui/toaster"
+import { InstallPWAPrompt } from "@/components/install-pwa-prompt"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,9 +24,9 @@ export const metadata: Metadata = {
   keywords:
     "mannargudi famous turf, mannargudi best turf, best turf in mannargudi, famous turf mannargudi, mannargudi turf, turf in mannargudi, valley sports arena, mannargudi cricket ground, mannargudi football ground, sports arena mannargudi, mannargudi sports, turf booking mannargudi, mannargudi grandest turf, premier turf mannargudi",
   icons: {
-    icon: "https://valleyturf.in/logo.png",
-    shortcut: "https://valleyturf.in/logo.png",
-    apple: "https://valleyturf.in/logo.png",
+    icon: "/images/design-mode/IMG_0027.PNG.png",
+    shortcut: "/images/design-mode/IMG_0027.PNG.png",
+    apple: "/images/design-mode/IMG_0027.PNG.png",
   },
   openGraph: {
     title: "Valley Sports Arena - Mannargudi's Most Famous & Best Turf",
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Valley Sports Arena - Mannargudi's Most Famous Turf",
     images: [
       {
-        url: "https://valleyturf.in/logo.png",
+        url: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
         width: 1200,
         height: 630,
         alt: "Valley Sports Arena Logo - Mannargudi's Most Famous and Best Turf",
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     title: "Valley Sports Arena - Mannargudi's Most Famous & Best Turf",
     description:
       "Mannargudi's most famous and best turf - FIFA-certified cricket and football ground. Book slots 24/7 for cricket, football, volleyball & private events.",
-    images: ["https://valleyturf.in/logo.png"],
+    images: ["https://valleyturf.in/images/design-mode/IMG_0027.PNG.png"],
     creator: "@vall.eyturf",
   },
   robots: {
@@ -67,9 +68,15 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://valleyturf.in",
   },
-  verification: {
-    google: "your-google-verification-code",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Valley Sports Arena",
   },
+  formatDetection: {
+    telephone: true,
+  },
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -80,6 +87,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#10b981" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Valley Turf" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/images/design-mode/IMG_0027.PNG.png" />
+
         <Script
           id="structured-data"
           type="application/ld+json"
@@ -91,8 +106,8 @@ export default function RootLayout({
               alternateName: ["Mannargudi Famous Turf", "Mannargudi Best Turf", "Best Turf in Mannargudi"],
               description: "Mannargudi's most famous and best turf - FIFA-certified cricket and football ground",
               url: "https://valleyturf.in",
-              logo: "https://valleyturf.in/logo.png",
-              image: "https://valleyturf.in/logo.png",
+              logo: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
+              image: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
               telephone: "+917904831017",
               address: {
                 "@type": "PostalAddress",
@@ -146,10 +161,21 @@ export default function RootLayout({
             }),
           }}
         />
+
+        <Script id="pwa-register" strategy="afterInteractive">
+          {`
+            if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed', err));
+              });
+            }
+          `}
+        </Script>
       </head>
       <body>
         <AuthProvider>
           {children}
+          <InstallPWAPrompt />
           <Toaster />
         </AuthProvider>
       </body>

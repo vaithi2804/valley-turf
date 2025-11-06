@@ -44,7 +44,6 @@ export default function SignInPage() {
       if (idToken) {
         const payload = JSON.parse(atob(idToken.split(".")[1]))
         const userRole = payload["custom:role"]
-        console.log("User Role:", userRole)
 
         if (userRole === "admin") {
           router.push("/admin")

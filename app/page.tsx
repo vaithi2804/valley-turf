@@ -1,11 +1,14 @@
 import { HeroSection } from "@/components/hero-section"
 import { FeaturesSection } from "@/components/features-section"
 import { EventsSection } from "@/components/events-section"
+import { CoachingProgramsSection } from "@/components/coaching-programs-section"
 import { ContactSection } from "@/components/contact-section"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { PromoBanner } from "@/components/promo-banner"
 import type { Metadata } from "next"
+import { OFFERS_ENABLED } from "@/lib/offer-config"
+
 
 export const metadata: Metadata = {
   title: "Valley Sports Arena - Mannargudi's Most Famous & Best Turf | Premier Sports Ground",
@@ -35,8 +38,8 @@ export default function Home() {
             ],
             description:
               "Mannargudi's most famous and best turf - FIFA-certified cricket and football ground with 50mm eco-friendly grass. The premier sports destination in Mannargudi.",
-            image: "https://valleyturf.in/logo.png",
-            logo: "https://valleyturf.in/logo.png",
+            image: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
+            logo: "https://valleyturf.in/images/design-mode/IMG_0027.PNG.png",
             url: "https://valleyturf.in",
             telephone: "+917904831017",
             address: {
@@ -78,9 +81,10 @@ export default function Home() {
 
       <main className="min-h-screen">
         <Header />
-        <PromoBanner />
+        {OFFERS_ENABLED && <PromoBanner />}
         <HeroSection />
         <FeaturesSection />
+        <CoachingProgramsSection />
         <EventsSection />
         <ContactSection />
         <Footer />

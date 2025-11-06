@@ -11,6 +11,7 @@ import { ChevronLeft, ChevronRight, Gift, Plus, Minus, AlertCircle, Info, CheckC
 import { cn } from "@/lib/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { OFFERS_ENABLED, getOfferDetails } from "@/lib/offer-config"
 
 const timeSlots = [
   "00:00",
@@ -214,13 +215,13 @@ export function BookingCalendar() {
       )
 
       if (response.ok) {
-        const data = await response.json()
-        const booked: string[] = []
-        data.bookings?.forEach((booking: any) => {
-          const slots = getSlotsInRange(booking.startTime, booking.endTime)
-          booked.push(...slots)
-        })
-        setBookedSlots(booked)
+      const data = await response.json()
+      const booked: string[] = []
+      data.bookings?.forEach((booking: any) => {
+        const slots = getSlotsInRange(booking.startTime, booking.endTime)
+        booked.push(...slots)
+      })
+      setBookedSlots(booked)
       }
 
       const nextDay = new Date(selectedDate)
@@ -294,30 +295,19 @@ export function BookingCalendar() {
     if (!startTime || duration === 0) return null
 
     const endTime = calculateEndTime(startTime, duration)
+
     const { weekdayHours, weekendHours } = calculateWeekdayWeekendHours(selectedDate, startTime, endTime)
 
-    let chargeableHours = duration
-    let offerApplied = false
-
-    if (duration === 3) {
-      chargeableHours = 2
-      offerApplied = true
-    } else if (duration === 4) {
-      chargeableHours = 3
-      offerApplied = true
-    } else if (duration === 5) {
-      chargeableHours = 4
-      offerApplied = true
-    } else if (duration === 6) {
-      chargeableHours = 4
-      offerApplied = true
-    }
+    const { chargeableHours, offerApplied } = OFFERS_ENABLED
+      ? getOfferDetails(duration)
+      : { chargeableHours: duration, offerApplied: false }
 
     const ratio = chargeableHours / duration
     const chargeableWeekdayHours = weekdayHours * ratio
     const chargeableWeekendHours = weekendHours * ratio
 
     const totalCost = Math.round(chargeableWeekdayHours * 799 + chargeableWeekendHours * 899)
+
     const isOvernight = timeSlots.indexOf(endTime) <= timeSlots.indexOf(startTime) && endTime !== startTime
 
     return {
@@ -328,6 +318,8 @@ export function BookingCalendar() {
       totalCost,
       offerApplied,
       isOvernight,
+      weekdayHours,
+      weekendHours,
     }
   }
 
@@ -456,16 +448,16 @@ export function BookingCalendar() {
 
   return (
     <div className="space-y-6">
-      {isOfferActive && (
-        <Card className="bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20 p-4">
-          <div className="flex items-center gap-3">
-            <Gift className="h-6 w-6 text-accent flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-foreground">Opening Offer Active!</p>
+      {OFFERS_ENABLED && (
+      <Card className="bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20 p-4">
+        <div className="flex items-center gap-3">
+          <Gift className="h-6 w-6 text-accent flex-shrink-0" />
+          <div>
+              <p className="font-semibold text-foreground">Special Offer Available!</p>
               <p className="text-sm text-muted-foreground">Book exactly 3 hours and pay for only 2 hours!</p>
-            </div>
           </div>
-        </Card>
+        </div>
+      </Card>
       )}
 
       <div>

@@ -9,6 +9,8 @@ import { PromoBanner } from "@/components/promo-banner"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { OFFERS_ENABLED } from "@/lib/offer-config"
+
 
 export default function BookingPage() {
   const { user, loading } = useAuth()
@@ -24,7 +26,7 @@ export default function BookingPage() {
     return (
       <>
         <Header />
-        <PromoBanner />
+        {OFFERS_ENABLED && <PromoBanner />}
         <div className="min-h-screen flex items-center justify-center">
           <p>Loading...</p>
         </div>
@@ -54,8 +56,8 @@ export default function BookingPage() {
             <AlertTitle>Need Help?</AlertTitle>
             <AlertDescription>
               If you encounter any issues while booking, please contact us at{" "}
-              <a href="tel:+919790028312" className="font-semibold text-primary hover:underline">
-                +91 9790028312
+              <a href="tel:+917904831017" className="font-semibold text-primary hover:underline">
+                +91 7904831017
               </a>
             </AlertDescription>
           </Alert>
