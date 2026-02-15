@@ -47,7 +47,7 @@ export default function BookingPage() {
           <div className="mb-8">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">Book Your Slot</h1>
             <p className="text-muted-foreground">
-              Select your preferred date and time to book the turf. Each slot is 30 minutes.
+              Select your preferred date and time to book the turf. Each slot is 60 minutes.
             </p>
           </div>
 
